@@ -1,4 +1,4 @@
-package it.unive.dais.cevid.datadroid.component;
+package it.unive.dais.cevid.aac;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -8,7 +8,8 @@ import android.support.coreutils.BuildConfig;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import it.unive.dais.cevid.datadroid.R;
+import it.unive.dais.cevid.aac.R;
+
 
 /**
  * Activity per la schermata di crediti e about.

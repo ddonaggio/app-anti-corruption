@@ -1,4 +1,4 @@
-package it.unive.dais.cevid.datadroid.util;
+package it.unive.dais.cevid.aac.util;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,12 +8,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import it.unive.dais.cevid.datadroid.R;
-import it.unive.dais.cevid.datadroid.parser.AppaltiParser;
 
-/**
- * Created by Fonto on 04/09/17.
- */
+import it.unive.dais.cevid.aac.R;
+import it.unive.dais.cevid.datadroid.lib.parser.AppaltiParser;
+
 
 public class AppaltiAdapter extends RecyclerView.Adapter<AppaltiAdapter.AppaltoItem> {
 
@@ -33,9 +31,10 @@ public class AppaltiAdapter extends RecyclerView.Adapter<AppaltiAdapter.AppaltoI
 
     @Override
     public void onBindViewHolder(AppaltoItem holder, int position) {
-        holder.importo.setText(dataList.get(position).getImportoSommeLiquidate());
-        holder.aggiudicatario.setText(dataList.get(position).getAggiudicatario());
-        holder.oggetto.setText(dataList.get(position).getOggetto());
+        holder.importo.setText(dataList.get(position).importo + "€");
+        holder.aggiudicatario.setText(dataList.get(position).aggiudicatario);
+        holder.oggetto.setText(dataList.get(position).oggetto);
+        holder.scelta.setText(dataList.get(position).sceltac);
     }
 
     @Override
@@ -45,13 +44,15 @@ public class AppaltiAdapter extends RecyclerView.Adapter<AppaltiAdapter.AppaltoI
 
     public class AppaltoItem extends RecyclerView.ViewHolder {
 
-        public TextView importo, oggetto, aggiudicatario;
+        public TextView importo, oggetto, aggiudicatario, scelta;
 
         public AppaltoItem(View itemView) {
             super(itemView);
             importo = (TextView) itemView.findViewById(R.id.text_importo);
             oggetto = (TextView) itemView.findViewById(R.id.text_oggetto);
             aggiudicatario = (TextView) itemView.findViewById(R.id.text_aggiudicatario);
+            scelta = (TextView) itemView.findViewById(R.id.text_scelta);
         }
     }
 }
+

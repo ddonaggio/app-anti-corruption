@@ -1,4 +1,4 @@
-package it.unive.dais.cevid.datadroid.util;
+package it.unive.dais.cevid.aac.util;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -6,20 +6,22 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
+import it.unive.dais.cevid.datadroid.lib.util.MapItem;
+
 /**
  * Created by Fonto on 04/09/17.
  */
 
 public class University extends MapItem implements Serializable{
     private String title;
-    private Double latitude;
-    private Double longitude;
+    private double latitude;
+    private double longitude;
     private String description;
     private List<URL> urls;
     private String codiceEnte;
     private static String codiceComparto = "UNI";
 
-    public University(String title, Double latitude, Double longitude, String description, List<URL> urls, String codiceEnte) {
+    public University(String title, double latitude, double longitude, String description, List<URL> urls, String codiceEnte) {
         this.title = title;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -76,19 +78,19 @@ public class University extends MapItem implements Serializable{
         University.codiceComparto = codiceComparto;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }

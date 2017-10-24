@@ -2,7 +2,7 @@
  * Questo package contiene le componenti Android riusabili.
  * Si tratta di classi che contengono già funzionalità base e possono essere riusate apportandovi modifiche
  */
-package it.unive.dais.cevid.datadroid.component;
+package it.unive.dais.cevid.aac;
 
 import android.Manifest;
 import android.app.Activity;
@@ -49,6 +49,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -58,12 +59,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import it.unive.dais.cevid.datadroid.R;
-import it.unive.dais.cevid.datadroid.parser.AbstractDataParser;
-import it.unive.dais.cevid.datadroid.parser.AppaltiParser;
-import it.unive.dais.cevid.datadroid.parser.SoldiPubbliciParser;
-import it.unive.dais.cevid.datadroid.util.MapItem;
-import it.unive.dais.cevid.datadroid.util.University;
+import it.unive.dais.cevid.aac.util.University;
+import it.unive.dais.cevid.datadroid.lib.parser.Parser;
+import it.unive.dais.cevid.datadroid.lib.util.MapItem;
+
 
 /**
  * Questa classe è la componente principale del toolkit: fornisce servizi primari per un'app basata su Google Maps, tra cui localizzazione, pulsanti
@@ -85,7 +84,6 @@ public class MapsActivity extends AppCompatActivity
 
     protected static final int REQUEST_CHECK_SETTINGS = 500;
     protected static final int PERMISSIONS_REQUEST_ACCESS_BOTH_LOCATION = 501;
-
     // alcune costanti
     private static final String TAG = "MapsActivity";
     /**
@@ -115,8 +113,12 @@ public class MapsActivity extends AppCompatActivity
     protected Marker hereMarker = null;
 
 
+
     private List<University> uni;
     private Map<String, University> universityMap = new HashMap<>();
+
+
+
 
     /**
      * Questo metodo viene invocato quando viene inizializzata questa activity.
@@ -165,21 +167,46 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
+        //add Ca Foscari
         uni = new ArrayList<>();
         try {
             List<URL> urls = new ArrayList<>();
             urls.add(new URL("http://www.unive.it/avcp/datiAppalti2016.xml"));
-            uni.add(new University("Ca'Foscari", 45.4824602 ,12.1906404 , "Università degli studi di Venezia", urls , "000704968000000"));
+            uni.add(new University("Ca'Foscari", 45.4824602, 12.1906404, "Università degli studi di Venezia", urls , "000704968000000"));
         } catch (MalformedURLException e) {
+            Log.w(TAG, "malformed url");   // TODO: scrivere un messaggio decente
+            e.printStackTrace();
+        }
+
+        //add Padova
+        try {
+            List<URL> urls = new ArrayList<>();
+            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s1_01.xml"));
+            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s1_02.xml"));
+            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s1_03.xml"));
+            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s2_01.xml"));
+            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s2_02.xml"));
+            uni.add(new University("Università di Padova", 45.406766, 11.8774462, "Università degli studi di Padova", urls, "000058546000000"));
+        } catch (MalformedURLException e) {
+            Log.w(TAG, "malformed url");   // TODO: scrivere un messaggio decente
+            e.printStackTrace();
+        }
+
+        //add Trento
+        try {
+            List<URL> urls = new ArrayList<>();
+            urls.add(new URL("http://approvvigionamenti.unitn.it/bandi-di-gara-e-contratti/2017/ricerca_2016.xml"));
+            urls.add(new URL("http://approvvigionamenti.unitn.it/bandi-di-gara-e-contratti/2017/amministrazione_2016.xml"));
+            uni.add(new University("Università di Trento", 46.0694828, 11.1188738, "Università degli studi di Trento", urls, "000067046000000"));
+        } catch (MalformedURLException e) {
+            Log.w(TAG, "malformed url");   // TODO: scrivere un messaggio decente
             e.printStackTrace();
         }
 
     }
 
-    // metodi del ciclo di vita
-    // aggiungere codice a piacere se necessario.
+    // ciclo di vita della app
     //
-
 
     @Override
     protected void onStart() {
@@ -473,12 +500,11 @@ public class MapsActivity extends AppCompatActivity
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(MapsActivity.this, UniversityActivity.class);
-                intent.putExtra(UniversityActivity.EXTRA_UNI, universityMap.get(marker.getId()));
+                Intent intent = new Intent(MapsActivity.this, SearchActivity.class);
+                intent.putExtra(SearchActivity.BUNDLE_UNI, universityMap.get(marker.getId()));
                 startActivity(intent);
             }
         });
-
     }
 
     /**
@@ -534,6 +560,15 @@ public class MapsActivity extends AppCompatActivity
         return false;
     }
 
+    @NonNull
+    protected <I extends MapItem> Collection<Marker> putMarkersFromMapItems(List<I> l) {
+        Collection<Marker> r = new ArrayList<>();
+        for (MapItem i : l) {
+            r.add(gMap.addMarker(new MarkerOptions().title(i.getTitle()).position(i.getPosition()).snippet(i.getDescription())));
+        }
+        return r;
+    }
+
     /**
      * Metodo proprietario di utilità per popolare la mappa con i dati provenienti da un parser.
      * Si tratta di un metodo che può essere usato direttamente oppure può fungere da esempio per come
@@ -543,20 +578,10 @@ public class MapsActivity extends AppCompatActivity
      * @return ritorna una collection di marker se tutto va bene; null altrimenti.
      */
     @Nullable
-    protected <I extends MapItem> Collection<Marker> putMarkersFromData(@NonNull AbstractDataParser<I, ?, ?> parser) {
-        try {
-            List<I> l = parser.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR).get();
-            Collection<Marker> r = new ArrayList<>();
-            Log.i(TAG, String.format("parsed %d lines", l.size()));
-            for (MapItem i : l) {
-                r.add(gMap.addMarker(new MarkerOptions().title(i.getTitle()).position(i.getPosition()).snippet(i.getDescription())));
-            }
-            return r;
-        } catch (InterruptedException | ExecutionException e) {
-            Log.e(TAG, String.format("exception caught while parsing: %s", e));
-            e.printStackTrace();
-            return null;
-        }
+    protected <I extends MapItem> Collection<Marker> putMarkersFromData(@NonNull Parser<I> parser) throws IOException {
+        List<I> l = parser.parse();
+        Log.i(TAG, String.format("parsed %d lines", l.size()));
+        return putMarkersFromMapItems(l);
     }
 
     /**
