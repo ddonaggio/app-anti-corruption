@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$USER_HOME$/template/lib" />
+            <option value="$PROJECT_DIR$/../../template/lib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
