@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app-anti-corruption.iml" filepath="$PROJECT_DIR$/app-anti-corruption.iml" />
+      <module fileurl="file://$USER_HOME$/template/lib/datadroid.lib.iml" filepath="$USER_HOME$/template/lib/datadroid.lib.iml" />
     </modules>
   </component>
 </project>
