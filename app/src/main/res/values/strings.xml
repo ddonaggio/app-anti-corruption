@@ -1,7 +1,7 @@
 <resources>
     <!-- Customize your app's name here. -->
-    <string name="app_name">Datadroid MapsApp</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">AAC</string>
+    <string name="title_activity_maps">AAC Map</string>
     <!-- -->
 
     <string name="gps_disabled">GPS disattivato</string>
@@ -37,6 +37,10 @@
     <string name="msg_button_car">Pulsante premuto</string>
     <string name="msg_permissions_not_granted">I permessi appena negati dall\'utente sono necessari per alcune funzionalità dell\'app. Il supporto delle funzionalità sarà ridotto.</string>
     <string name="marker_title">You are HERE</string>
-    <string name="spesaPubblica">Spesa del bilancio consultivo riguardante:</string>
+    <string name="spesaPubblica">Spesa dai dati della Banca di Italia riguardante:</string>
+    <string name="ricerca_soldi_pubblici">Ricerca libera nelle spese 2016 di soldipubblici.gov.it</string>
+    <string name="ricerca_appalti">Ricerca libera tra gli appalti stipulati nel 2016 dall\'ente</string>
+    <string name="licenze_software">Visualizza dati combinati</string>
+    <string name="spese_totali">Somma totale degli importi degli appalti ricercati espressa in euro:</string>
 
 </resources>
