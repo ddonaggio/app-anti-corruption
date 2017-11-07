@@ -500,8 +500,8 @@ public class MapsActivity extends AppCompatActivity
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(MapsActivity.this, SearchActivity.class);
-                intent.putExtra(SearchActivity.BUNDLE_UNI, universityMap.get(marker.getId()));
+                Intent intent = new Intent(MapsActivity.this, PieChartActivity.class);
+                // intent.putExtra(SearchActivity.BUNDLE_UNI, universityMap.get(marker.getId()));
                 startActivity(intent);
             }
         });

@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
-import it.unive.dais.cevid.datadroid.lib.parser.SoldipubbliciParser;
 import it.unive.dais.cevid.aac.R;
+import it.unive.dais.cevid.datadroid.lib.parser.SoldipubbliciParser;
 
 /**
  * Created by Fonto on 11/09/17.
