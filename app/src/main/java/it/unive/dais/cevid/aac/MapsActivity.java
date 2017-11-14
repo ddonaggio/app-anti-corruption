@@ -3,7 +3,6 @@
  * Si tratta di classi che contengono già funzionalità base e possono essere riusate apportandovi modifiche
  */
 package it.unive.dais.cevid.aac;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -49,20 +48,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import it.unive.dais.cevid.aac.util.University;
-import it.unive.dais.cevid.datadroid.lib.parser.Parser;
+import it.unive.dais.cevid.datadroid.lib.parser.AsyncParser;
+import it.unive.dais.cevid.datadroid.lib.parser.CsvRowParser;
 import it.unive.dais.cevid.datadroid.lib.util.MapItem;
-
 
 /**
  * Questa classe è la componente principale del toolkit: fornisce servizi primari per un'app basata su Google Maps, tra cui localizzazione, pulsanti
@@ -112,14 +108,6 @@ public class MapsActivity extends AppCompatActivity
     @Nullable
     protected Marker hereMarker = null;
 
-
-
-    private List<University> uni;
-    private Map<String, University> universityMap = new HashMap<>();
-
-
-
-
     /**
      * Questo metodo viene invocato quando viene inizializzata questa activity.
      * Si tratta di una sorta di "main" dell'intera activity.
@@ -166,44 +154,8 @@ public class MapsActivity extends AppCompatActivity
                     Log.d(TAG, "no current position available");
             }
         });
-
-        //add Ca Foscari
-        uni = new ArrayList<>();
-        try {
-            List<URL> urls = new ArrayList<>();
-            urls.add(new URL("http://www.unive.it/avcp/datiAppalti2016.xml"));
-            uni.add(new University("Ca'Foscari", 45.4824602, 12.1906404, "Università degli studi di Venezia", urls , "000704968000000"));
-        } catch (MalformedURLException e) {
-            Log.w(TAG, "malformed url");   // TODO: scrivere un messaggio decente
-            e.printStackTrace();
-        }
-
-        //add Padova
-        try {
-            List<URL> urls = new ArrayList<>();
-            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s1_01.xml"));
-            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s1_02.xml"));
-            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s1_03.xml"));
-            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s2_01.xml"));
-            urls.add(new URL("http://www.unipd.it/sites/unipd.it/files/dataset_2016_s2_02.xml"));
-            uni.add(new University("Università di Padova", 45.406766, 11.8774462, "Università degli studi di Padova", urls, "000058546000000"));
-        } catch (MalformedURLException e) {
-            Log.w(TAG, "malformed url");   // TODO: scrivere un messaggio decente
-            e.printStackTrace();
-        }
-
-        //add Trento
-        try {
-            List<URL> urls = new ArrayList<>();
-            urls.add(new URL("http://approvvigionamenti.unitn.it/bandi-di-gara-e-contratti/2017/ricerca_2016.xml"));
-            urls.add(new URL("http://approvvigionamenti.unitn.it/bandi-di-gara-e-contratti/2017/amministrazione_2016.xml"));
-            uni.add(new University("Università di Trento", 46.0694828, 11.1188738, "Università degli studi di Trento", urls, "000067046000000"));
-        } catch (MalformedURLException e) {
-            Log.w(TAG, "malformed url");   // TODO: scrivere un messaggio decente
-            e.printStackTrace();
-        }
-
     }
+
 
     // ciclo di vita della app
     //
@@ -453,6 +405,7 @@ public class MapsActivity extends AppCompatActivity
      * Ciò non significa che tutte le operazioni che coinvolgono la mappa vanno eseguite qui: è naturale aver bisogno di accedere al campo
      * gMap in altri metodi, per eseguire operazioni sulla mappa in vari momenti, ma è necessario tenere a mente che tale campo potrebbe
      * essere ancora non inizializzato e va pertanto verificata la nullness.
+     *
      * @param googleMap oggetto di tipo GoogleMap.
      */
     @Override
@@ -487,24 +440,16 @@ public class MapsActivity extends AppCompatActivity
 
         applyMapSettings();
 
-        for (University u:uni) {
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(u.getPosition());
-            markerOptions.title(u.getTitle());
-            markerOptions.snippet(u.getDescription());
-            Marker marker = gMap.addMarker(markerOptions);
-            universityMap.put(marker.getId(), u);
-
-        }
-
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(MapsActivity.this, PieChartActivity.class);
-                // intent.putExtra(SearchActivity.BUNDLE_UNI, universityMap.get(marker.getId()));
+                intent.putExtra("regionId", marker.getTitle());
                 startActivity(intent);
             }
         });
+
+        demo();
     }
 
     /**
@@ -520,8 +465,9 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * Naviga dalla posizione from alla posizione to chiamando il navigatore di Google.
+     *
      * @param from posizione iniziale.
-     * @param to posizione finale.
+     * @param to   posizione finale.
      */
     protected void navigate(@NonNull LatLng from, @NonNull LatLng to) {
         Intent navigation = new Intent(
@@ -541,6 +487,7 @@ public class MapsActivity extends AppCompatActivity
      * Questo metodo viene invocato al click di QUALUNQUE marker nella mappa; pertanto, se è necessario
      * eseguire comportamenti specifici per un certo marker o gruppo di marker, va modificato questo metodo
      * con codice che si occupa di discernere tra un marker e l'altro in qualche modo.
+     *
      * @param marker il marker che è stato cliccato.
      * @return ritorna true per continuare a chiamare altre callback nella catena di callback per i marker; false altrimenti.
      */
@@ -560,11 +507,20 @@ public class MapsActivity extends AppCompatActivity
         return false;
     }
 
+    /**
+     * Metodo di utilità che permette di posizionare rapidamente sulla mappa una lista di MapItem.
+     * Attenzione: l'oggetto gMap deve essere inizializzato, questo metodo va pertanto chiamato preferibilmente dalla
+     * callback onMapReady().
+     * @param l la lista di oggetti di tipo I tale che I sia sottotipo di MapItem.
+     * @param <I> sottotipo di MapItem.
+     * @return ritorna la collection di oggetti Marker aggiunti alla mappa.
+     */
     @NonNull
     protected <I extends MapItem> Collection<Marker> putMarkersFromMapItems(List<I> l) {
         Collection<Marker> r = new ArrayList<>();
         for (MapItem i : l) {
-            r.add(gMap.addMarker(new MarkerOptions().title(i.getTitle()).position(i.getPosition()).snippet(i.getDescription())));
+            MarkerOptions opts = new MarkerOptions().title(i.getTitle()).position(i.getPosition());
+            r.add(gMap.addMarker(opts));
         }
         return r;
     }
@@ -573,15 +529,22 @@ public class MapsActivity extends AppCompatActivity
      * Metodo proprietario di utilità per popolare la mappa con i dati provenienti da un parser.
      * Si tratta di un metodo che può essere usato direttamente oppure può fungere da esempio per come
      * utilizzare i parser con informazioni geolocalizzate.
+     *
      * @param parser un parser che produca sottotipi di MapItem, con qualunque generic Progress o Input
-     * @param <I> parametro di tipo che estende MapItem.
+     * @param <I>    parametro di tipo che estende MapItem.
      * @return ritorna una collection di marker se tutto va bene; null altrimenti.
      */
     @Nullable
-    protected <I extends MapItem> Collection<Marker> putMarkersFromData(@NonNull Parser<I> parser) throws IOException {
-        List<I> l = parser.parse();
-        Log.i(TAG, String.format("parsed %d lines", l.size()));
-        return putMarkersFromMapItems(l);
+    protected <I extends MapItem> Collection<Marker> putMarkersFromData(@NonNull AsyncParser<I, ?> parser) {
+        try {
+            List<I> l = parser.getAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR).get();
+            Log.i(TAG, String.format("parsed %d lines", l.size()));
+            return putMarkersFromMapItems(l);
+        } catch (InterruptedException | ExecutionException e) {
+            Log.e(TAG, String.format("exception caught while parsing: %s", e));
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -626,9 +589,41 @@ public class MapsActivity extends AppCompatActivity
     }
 
 
+    // demo code
 
+    @Nullable
+    private Collection<Marker> markers;
 
+    private void demo() {
+        try {
+            InputStream is = getResources().openRawResource(R.raw.geo_regioni);
+            CsvRowParser p = new CsvRowParser(new InputStreamReader(is), true, ",");
+            List<CsvRowParser.Row> rows = p.getAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR).get();
+            List<MapItem> l = new ArrayList<>();
+            for (final CsvRowParser.Row r : rows) {
+                l.add(new MapItem() {
+                    @Override
+                    public LatLng getPosition() {
+                        String lat = r.get("LAT"), lng = r.get("LON");
+                        return new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                    }
 
+                    public String getId() {
+                        return r.get("ID");
+                    }
+
+                    @Override
+                    public String getTitle() {
+                        return r.get("NAME");
+                    }
+                });
+            }
+            markers = putMarkersFromMapItems(l);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
+
