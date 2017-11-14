@@ -1,3 +1,5 @@
 include ':app'
 include ':datadroid.lib'
-project(':datadroid.lib').projectDir = new File('./lib')
+project(':datadroid.lib').projectDir = new File('./Datadroid')
+include ':MPChartLib'
+project(':MPChartLib').projectDir = new File('./MPChartLib')
