@@ -1,4 +1,4 @@
-package it.unive.dais.cevid.aac;
+/*package it.unive.dais.cevid.aac;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import it.unive.dais.cevid.aac.util.University;
+import it.unive.dais.cevid.aac.util.Region;
 import it.unive.dais.cevid.datadroid.lib.parser.AppaltiParser;
 import it.unive.dais.cevid.datadroid.lib.parser.AsyncParser;
 import it.unive.dais.cevid.datadroid.lib.parser.SoldipubbliciParser;
@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     public static final String BUNDLE_UNI = "UNI";
     private static final String BUNDLE_LIST = "LIST";
 
-    private University university;
+    private Region university;
     private SoldipubbliciParser<?> soldiPubbliciParser; // TODO: agguingere una progress bar al layout
     private AppaltiParser<?> appaltiParser;
     private LinearLayout mainView;
@@ -71,16 +71,16 @@ public class SearchActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             // crea l'activity da zero
-            university = (University) getIntent().getSerializableExtra(BUNDLE_UNI);
+            university = (Region) getIntent().getSerializableExtra(BUNDLE_UNI);
         } else {
             // ricrea l'activity deserializzando alcuni dati dal bundle
-            university = (University) savedInstanceState.getSerializable(BUNDLE_UNI);
+            university = (Region) savedInstanceState.getSerializable(BUNDLE_UNI);
         }
         TextView title = (TextView) findViewById(R.id.univeristy_name);
         title.setText(university.getTitle());
 
         // TODO: salvare lo stato dei parser con un proxy serializzabile
-        soldiPubbliciParser = new SoldipubbliciParser(University.getCodiceComparto(), university.getCodiceEnte());
+        soldiPubbliciParser = new SoldipubbliciParser(Region.getCodiceComparto(), university.getCodiceEnte());
         appaltiParser = new AppaltiParser(university.getUrls());
         soldiPubbliciParser.getAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         appaltiParser.getAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -225,3 +225,4 @@ public class SearchActivity extends AppCompatActivity {
     };
 
 }
+*/

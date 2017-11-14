@@ -8,8 +8,6 @@ import android.support.coreutils.BuildConfig;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import it.unive.dais.cevid.aac.R;
-
 
 /**
  * Activity per la schermata di crediti e about.
