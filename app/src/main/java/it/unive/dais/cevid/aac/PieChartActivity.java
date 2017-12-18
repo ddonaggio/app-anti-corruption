@@ -2,6 +2,7 @@
 package it.unive.dais.cevid.aac;
 
 import it.unive.dais.cevid.aac.DemoBase;
+import it.unive.dais.cevid.aac.util.IncassiSanita;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -35,6 +36,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PieChartActivity extends DemoBase implements OnSeekBarChangeListener,
         OnChartValueSelectedListener {
@@ -43,6 +45,7 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
     private String regionId;
+    private Map<String,Double> regionData;
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -60,12 +63,14 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                regionId= "Null";
+                regionId = "Null";
             } else {
-                regionId= extras.getString("regionId");
+                regionId = extras.getString("regionId");
+                regionData = IncassiSanita.convertToStringToHashMap( extras.getString("regionData") );
             }
         } else {
-            regionId= (String) savedInstanceState.getSerializable("regionId");
+            regionId = (String) savedInstanceState.getSerializable("regionId");
+            regionData = IncassiSanita.convertToStringToHashMap((String) savedInstanceState.getSerializable("regionData"));
         }
 
         tvX = (TextView) findViewById(R.id.tvXMax);

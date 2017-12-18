@@ -12,6 +12,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,11 +52,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import it.unive.dais.cevid.aac.util.IncassiSanita;
 import it.unive.dais.cevid.datadroid.lib.parser.AsyncParser;
 import it.unive.dais.cevid.datadroid.lib.parser.CsvRowParser;
 import it.unive.dais.cevid.datadroid.lib.util.MapItem;
@@ -107,6 +111,11 @@ public class MapsActivity extends AppCompatActivity
      */
     @Nullable
     protected Marker hereMarker = null;
+
+    /**
+     *
+     */
+    private List<IncassiSanita.DataRegione> incassiSanitaData = null;
 
     /**
      * Questo metodo viene invocato quando viene inizializzata questa activity.
@@ -443,8 +452,11 @@ public class MapsActivity extends AppCompatActivity
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                IncassiSanita incassiSanita = new IncassiSanita(incassiSanitaData);
+                Map<String,Double> test = incassiSanita.getImportiByIdRegione(marker.getTitle());
                 Intent intent = new Intent(MapsActivity.this, PieChartActivity.class);
                 intent.putExtra("regionId", marker.getTitle());
+                intent.putExtra("regionData", test.toString());
                 startActivity(intent);
             }
         });
@@ -519,7 +531,7 @@ public class MapsActivity extends AppCompatActivity
     protected <I extends MapItem> Collection<Marker> putMarkersFromMapItems(List<I> l) {
         Collection<Marker> r = new ArrayList<>();
         for (MapItem i : l) {
-            MarkerOptions opts = new MarkerOptions().title(i.getTitle()).position(i.getPosition());
+            MarkerOptions opts = new MarkerOptions().title(i.getId()).position(i.getPosition());
             r.add(gMap.addMarker(opts));
         }
         return r;
@@ -619,6 +631,19 @@ public class MapsActivity extends AppCompatActivity
                 });
             }
             markers = putMarkersFromMapItems(l);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            InputStream is = getResources().openRawResource(R.raw.incassi_sanita);
+            CsvRowParser p = new CsvRowParser(new InputStreamReader(is), true, ",");
+            List<CsvRowParser.Row> rows = p.getAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR).get();
+            List<IncassiSanita.DataRegione> l = new ArrayList<>();
+            for (final CsvRowParser.Row r : rows) {
+                l.add(new IncassiSanita.DataRegione(r.get("Id"), r.get("Regione"), r.get("Titolo"), r.get("Codice"), r.get("Descrizione"), Double.parseDouble(r.get("Importo"))));
+            }
+            incassiSanitaData = l;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
