@@ -4,8 +4,10 @@ package it.unive.dais.cevid.aac;
 import it.unive.dais.cevid.aac.DemoBase;
 import it.unive.dais.cevid.aac.util.IncassiSanita;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -33,19 +35,23 @@ import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public class PieChartActivity extends DemoBase implements OnSeekBarChangeListener,
-        OnChartValueSelectedListener {
+public class PieChartActivity extends DemoBase implements OnChartValueSelectedListener {
 
     private PieChart mChart;
-    private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
     private String regionId;
-    private Map<String,Double> regionData;
+    private List<IncassiSanita.DataRegione> incassiSanitaRegione;
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -60,26 +66,22 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_piechart);
 
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<IncassiSanita.DataRegione>>(){}.getType();
+
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 regionId = "Null";
+                incassiSanitaRegione = null;
             } else {
                 regionId = extras.getString("regionId");
-                regionData = IncassiSanita.convertToStringToHashMap( extras.getString("regionData") );
+                incassiSanitaRegione = gson.fromJson(extras.getString("regionData"), listType);
             }
         } else {
             regionId = (String) savedInstanceState.getSerializable("regionId");
-            regionData = IncassiSanita.convertToStringToHashMap((String) savedInstanceState.getSerializable("regionData"));
+            incassiSanitaRegione = gson.fromJson((JsonElement) savedInstanceState.getSerializable("regionData"), listType);
         }
-
-        tvX = (TextView) findViewById(R.id.tvXMax);
-        tvY = (TextView) findViewById(R.id.tvYMax);
-
-        mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
-        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
-        mSeekBarX.setProgress(4);
-        mSeekBarY.setProgress(10);
 
         mChart = (PieChart) findViewById(R.id.chart1);
         mChart.setUsePercentValues(true);
@@ -89,7 +91,7 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
         mChart.setCenterTextTypeface(mTfLight);
-        mChart.setCenterText(generateCenterSpannableText(regionId));
+        mChart.setCenterText(generateCenterSpannableText(regionId.replace("IT-","")));
 
         mChart.setDrawHoleEnabled(true);
         mChart.setHoleColor(Color.WHITE);
@@ -118,9 +120,6 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
-        mSeekBarX.setOnSeekBarChangeListener(this);
-        mSeekBarY.setOnSeekBarChangeListener(this);
-
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -131,9 +130,10 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         l.setYOffset(0f);
 
         // entry label styling
-        mChart.setEntryLabelColor(Color.WHITE);
+        mChart.setEntryLabelColor(Color.BLACK);
         mChart.setEntryLabelTypeface(mTfRegular);
         mChart.setEntryLabelTextSize(12f);
+        mChart.setDrawEntryLabels(false);
     }
 
     @Override
@@ -212,30 +212,24 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         return true;
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-        tvX.setText("" + (mSeekBarX.getProgress()));
-        tvY.setText("" + (mSeekBarY.getProgress()));
-
-        setData(mSeekBarX.getProgress(), mSeekBarY.getProgress());
-    }
-
     private void setData(int count, float range) {
 
         float mult = range;
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        Set<Map.Entry<String, Float>> importi = IncassiSanita.getImportiFromDataRegione(incassiSanitaRegione).entrySet();
+        Iterator importiIter = importi.iterator();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count ; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
-                    mParties[i % mParties.length],
+        while (importiIter.hasNext()) {
+            Map.Entry entry = (Map.Entry) importiIter.next();
+            entries.add(new PieEntry((float) entry.getValue(),
+                    (String) entry.getKey(),
                     getResources().getDrawable(R.drawable.star)));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+        PieDataSet dataSet = new PieDataSet(entries, "");
 
         dataSet.setDrawIcons(false);
 
@@ -270,7 +264,7 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
         data.setValueTypeface(mTfLight);
         mChart.setData(data);
 
@@ -281,16 +275,26 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
     }
 
     private SpannableString generateCenterSpannableText(String centerLabel) {
-
         SpannableString s = new SpannableString(centerLabel);
+        s.setSpan(new RelativeSizeSpan(1.5f), 0, s.length(), 0);
+        s.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, s.length(), 0);
         return s;
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
 
-        if (e == null)
+        if (e == null) {
             return;
+        } else {
+            // TODO: start new activity
+            Gson gson = new Gson();
+            Intent intent = new Intent(PieChartActivity.this, BarChartActivityScroll.class);
+            intent.putExtra("regionId", regionId);
+            intent.putExtra("titolo", ((PieEntry) e).getLabel());
+            intent.putExtra("regionData", gson.toJson(incassiSanitaRegione));
+            startActivity(intent);
+        }
         Log.i("VAL SELECTED",
                 "Value: " + e.getY() + ", index: " + h.getX()
                         + ", DataSet index: " + h.getDataSetIndex());
@@ -301,15 +305,6 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         Log.i("PieChart", "nothing selected");
     }
 
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        // TODO Auto-generated method stub
 
-    }
 
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        // TODO Auto-generated method stub
-
-    }
 }

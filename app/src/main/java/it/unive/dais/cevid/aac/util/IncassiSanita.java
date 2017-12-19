@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,15 +32,15 @@ public class IncassiSanita {
 
 
     // data struc for each csv row
-    public static class DataRegione {
+    public static class DataRegione implements Serializable {
         private String id;
         private String nomeRegione;
         private String titolo;
         private String codice;
         private String descrizione;
-        private Double importo;
+        private float importo;
 
-        public DataRegione(String id, String nomeRegione, String titolo, String codice, String descrizione, Double importo) {
+        public DataRegione(String id, String nomeRegione, String titolo, String codice, String descrizione, float importo) {
             this.id = id;
             this.nomeRegione = nomeRegione;
             this.titolo = titolo;
@@ -68,8 +69,14 @@ public class IncassiSanita {
             return descrizione;
         }
 
-        public Double getImporto() {
+        public float getImporto() {
             return importo;
+        }
+
+        @Override
+        public String toString() {
+            return "DataRegione [id=" + id + ", nomeRegione=" + nomeRegione + ", titolo=" + titolo
+                   + ", codice=" + codice + ", descrizione=" +  descrizione + ", importo=" + importo + "]";
         }
     }
     
@@ -83,9 +90,9 @@ public class IncassiSanita {
         return temp;
     }
 
-    public Map<String,Double> getImportiByIdRegione(String IdRegione) {
-        Map<String, Double> temp = new HashMap<>();
-        for (DataRegione dr : getDataByIdRegione(IdRegione)) {
+    public static Map<String,Float> getImportiFromDataRegione(List<IncassiSanita.DataRegione> incassiSanitaRegione) {
+        Map<String, Float> temp = new HashMap<>();
+        for (DataRegione dr : incassiSanitaRegione) {
             if(temp.containsKey(dr.getTitolo())) {
                 temp.put(dr.getTitolo(), temp.get(dr.getTitolo()) + dr.getImporto());
             } else {
@@ -95,19 +102,19 @@ public class IncassiSanita {
         return temp;
     }
 
-    /**
-     * Converts a HashMap.toString() back to a HashMap
-     * @param text
-     * @return HashMap<String, String>
-     */
-    public static HashMap<String,Double> convertToStringToHashMap(String text){
-        HashMap<String,Double> data = new HashMap<String,Double>();
-        Pattern p = Pattern.compile("[\\{\\}\\=\\, ]++");
-        String[] split = p.split(text);
-        for ( int i=1; i+2 <= split.length; i+=2 ){
-            data.put( split[i], Double.parseDouble(split[i+1]) );
+    public static Map<String,Float> getImportiFromDataRegioneAndTitolo(List<IncassiSanita.DataRegione> incassiSanitaRegione, String titolo) {
+        Map<String, Float> temp = new HashMap<>();
+        for (DataRegione dr : incassiSanitaRegione) {
+            if (dr.getTitolo().equals(titolo)) {
+                if (temp.containsKey(dr.getDescrizione())) {
+                    temp.put(dr.getDescrizione(), temp.get(dr.getDescrizione()) + dr.getImporto());
+                } else {
+                    temp.put(dr.getDescrizione(), dr.getImporto());
+                }
+            }
         }
-        return data;
+        return temp;
     }
+
 }
 

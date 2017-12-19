@@ -48,6 +48,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.InputStream;
@@ -453,10 +454,11 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onInfoWindowClick(Marker marker) {
                 IncassiSanita incassiSanita = new IncassiSanita(incassiSanitaData);
-                Map<String,Double> test = incassiSanita.getImportiByIdRegione(marker.getTitle());
+                Gson gson = new Gson();
+                List<IncassiSanita.DataRegione> regionData = incassiSanita.getDataByIdRegione(marker.getTitle());
                 Intent intent = new Intent(MapsActivity.this, PieChartActivity.class);
                 intent.putExtra("regionId", marker.getTitle());
-                intent.putExtra("regionData", test.toString());
+                intent.putExtra("regionData", gson.toJson(regionData));
                 startActivity(intent);
             }
         });
@@ -641,7 +643,7 @@ public class MapsActivity extends AppCompatActivity
             List<CsvRowParser.Row> rows = p.getAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR).get();
             List<IncassiSanita.DataRegione> l = new ArrayList<>();
             for (final CsvRowParser.Row r : rows) {
-                l.add(new IncassiSanita.DataRegione(r.get("Id"), r.get("Regione"), r.get("Titolo"), r.get("Codice"), r.get("Descrizione"), Double.parseDouble(r.get("Importo"))));
+                l.add(new IncassiSanita.DataRegione(r.get("Id"), r.get("Regione"), r.get("Titolo"), r.get("Codice"), r.get("Descrizione"), Float.parseFloat(r.get("Importo"))));
             }
             incassiSanitaData = l;
         } catch (InterruptedException | ExecutionException e) {
