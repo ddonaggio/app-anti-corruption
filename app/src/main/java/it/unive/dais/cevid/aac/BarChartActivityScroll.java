@@ -1,14 +1,22 @@
 package it.unive.dais.cevid.aac;
 
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +35,7 @@ import it.unive.dais.cevid.aac.util.IncassiSanita;
  */
 
 
-public class BarChartActivityScroll extends DemoBase {
+public class BarChartActivityScroll extends DemoBase implements OnChartValueSelectedListener {
 
     private BarChart mChart;
     private String regionId;
@@ -67,7 +75,6 @@ public class BarChartActivityScroll extends DemoBase {
 
         // scaling can now only be done on x- and y-axis separately
         mChart.setPinchZoom(false);
-
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
 
@@ -77,7 +84,8 @@ public class BarChartActivityScroll extends DemoBase {
 
         mChart.getAxisLeft().setDrawGridLines(false);
 
-        mChart.getLegend().setEnabled(false);
+        Legend l = mChart.getLegend();
+        l.setEnabled(true);
 
         setData(10);
         mChart.setFitBars(true);
@@ -94,13 +102,16 @@ public class BarChartActivityScroll extends DemoBase {
         int i = 0;
         while (importiIter.hasNext()) {
             Map.Entry entry = (Map.Entry) importiIter.next();
-            yVals.add(new BarEntry(i, (float) entry.getValue()));
+            // yVals.add(new BarEntry(i, (float) entry.getValue()));
+            yVals.add(new BarEntry(i, (float) Math.log((float) entry.getValue())));
             i++;
         }
 
         BarDataSet set = new BarDataSet(yVals, "Data Set");
         set.setColors(ColorTemplate.VORDIPLOM_COLORS);
         set.setDrawValues(false);
+        set.setBarBorderColor(Color.BLACK);
+        set.setBarBorderWidth((float) 0.5);
 
         BarData data = new BarData(set);
 
@@ -108,4 +119,19 @@ public class BarChartActivityScroll extends DemoBase {
         mChart.invalidate();
         mChart.animateY(800);
     }
+
+    protected RectF mOnValueSelectedRectF = new RectF();
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        if (e == null) return;
+
+        RectF bounds = mOnValueSelectedRectF;
+        mChart.getBarBounds((BarEntry) e, bounds);
+        MPPointF position = mChart.getPosition(e, YAxis.AxisDependency.LEFT);
+        MPPointF.recycleInstance(position);
+    }
+
+    @Override
+    public void onNothingSelected() {}
 }

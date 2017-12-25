@@ -516,6 +516,7 @@ public class MapsActivity extends AppCompatActivity
      */
     @Override
     public boolean onMarkerClick(final Marker marker) {
+        /*
         marker.showInfoWindow();
         button_car.setVisibility(View.VISIBLE);
         button_car.setOnClickListener(new View.OnClickListener() {
@@ -527,6 +528,7 @@ public class MapsActivity extends AppCompatActivity
                 }
             }
         });
+        */
         return false;
     }
 
