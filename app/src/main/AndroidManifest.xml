@@ -35,7 +35,8 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,14 +45,16 @@
         </activity>
         <activity
             android:name=".InfoActivity"
-            android:parentActivityName=".MapsActivity">
+            android:parentActivityName=".MapsActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MapsActivity" />
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".MapsActivity">
+            android:parentActivityName=".MapsActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MapsActivity" />
@@ -62,7 +65,8 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize"
             android:clickable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MapsActivity" />
@@ -73,7 +77,8 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize"
             android:clickable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PieChartActivity" />

@@ -12,7 +12,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,19 +44,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import it.unive.dais.cevid.aac.util.IncassiSanita;
@@ -117,6 +114,12 @@ public class MapsActivity extends AppCompatActivity
      *
      */
     private List<IncassiSanita.DataRegione> incassiSanitaData = null;
+
+    /**
+     *
+     */
+    private LatLngBounds ITALY = new LatLngBounds(
+            new LatLng(38, 9), new LatLng(44, 16));
 
     /**
      * Questo metodo viene invocato quando viene inizializzata questa activity.
@@ -462,6 +465,12 @@ public class MapsActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        // Restricted scrollable area (Italy) and Zoom
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ITALY.getCenter(), (float) 5.4));
+        gMap.setLatLngBoundsForCameraTarget(ITALY);
+        gMap.setMinZoomPreference((float) 5.4);
+        gMap.setMaxZoomPreference((float) 7);
 
         demo();
     }
