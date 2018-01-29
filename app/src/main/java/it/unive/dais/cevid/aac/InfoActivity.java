@@ -19,30 +19,27 @@ public class InfoActivity extends AppCompatActivity {
 
     /**
      * Produce la stringa completa coi crediti.
-     * @param ctx oggetto Context, tipicamente {@code this} se chiamato da un'altra Activity.
      * @return ritorna la stringa completa.
      */
     public static String credits(Context ctx) {
         ApplicationInfo ai = ctx.getApplicationInfo();
         StringBuffer buf = new StringBuffer();
-        buf.append("\tVERSION.RELEASE {").append(Build.VERSION.RELEASE).append("}");
-        buf.append("\n\tVERSION.INCREMENTAL {").append(Build.VERSION.INCREMENTAL).append("}");
-        buf.append("\n\tVERSION.SDK {").append(Build.VERSION.SDK_INT).append("}");
-        buf.append("\n\tBOARD {").append(Build.BOARD).append("}");
-        buf.append("\n\tBRAND {").append(Build.BRAND).append("}");
-        buf.append("\n\tDEVICE {").append(Build.DEVICE).append("}");
-        buf.append("\n\tFINGERPRINT {").append(Build.FINGERPRINT).append("}");
-        buf.append("\n\tHOST {").append(Build.HOST).append("}");
-        buf.append("\n\tID {").append(Build.ID).append("}");
+        buf.append("\tDiego Donaggio").append(" Mat.853837");
+        buf.append("\n\tIgnazio Carbonaro").append(" Mat.855503");
+        buf.append("\n\tAngelko Fericean").append(" Mat.995851");
+        buf.append("\n\tRodica Maria Tecu").append(" Mat.995845");
+        buf.append("\n\n\t Description of the App");
+        buf.append("\n\n\tOur application helps people get more awareness about how money gets spent in the health sector in Italy.\n" +
+                "The application has a map geo-referenced scheme showing information for each region’s health spending. It will provide transparency for users.\n" +
+                "More specifically, the app will provide the following information:\n" +
+                "How much money the State sends to each Region. It will show a statistic of incoming funds and population (per capita);\n" +
+                "Balance between the funds received by each Region from the State and how much money each Region spends in the health sector;\n" +
+                "How much money each Region sends to other Regions and how much money it gets from the other Regions for health services;\n" +
+                "A coloured map of Italy based on this statistics of incoming money and expenditures.\n");
         return String.format(
-                "--- APP ---\n" +
-                        "%s v%s [%s]\n" +
-                        "(c) %s %s @ %s - %s \n\n" +
-                        "--- ANDROID ---\n%s",
-                ctx.getString(ai.labelRes),
-                BuildConfig.VERSION_NAME,
-                BuildConfig.BUILD_TYPE,
-                R.string.credits_year, R.string.credits_project, R.string.credits_company, R.string.credits_authors,
+                "--- Salute Transparente APP ---\n" +
+                        "ver. 1.0.0\n\n" +
+                        "--- Our Team ---\n%s",
                 buf);
     }
 
