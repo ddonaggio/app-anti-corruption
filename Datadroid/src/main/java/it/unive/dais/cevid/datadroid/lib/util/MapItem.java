@@ -16,6 +16,14 @@ public abstract class MapItem {
     public abstract LatLng getPosition();
 
     /**
+     * Ritorna l' id.
+     * @return la stringa id.
+     */
+    public String getId() {
+        return toString();
+    }
+
+    /**
      * Ritorna il titolo.
      * @return la stringa col titolo.
      */

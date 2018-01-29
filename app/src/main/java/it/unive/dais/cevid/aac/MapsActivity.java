@@ -3,6 +3,7 @@
  * Si tratta di classi che contengono già funzionalità base e possono essere riusate apportandovi modifiche
  */
 package it.unive.dais.cevid.aac;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -44,11 +45,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import it.unive.dais.cevid.aac.util.IncassiSanita;
 import it.unive.dais.cevid.datadroid.lib.parser.AsyncParser;
 import it.unive.dais.cevid.datadroid.lib.parser.CsvRowParser;
 import it.unive.dais.cevid.datadroid.lib.util.MapItem;
@@ -109,6 +112,17 @@ public class MapsActivity extends AppCompatActivity
     protected Marker hereMarker = null;
 
     /**
+     *
+     */
+    private List<IncassiSanita.DataRegione> incassiSanitaData = null;
+
+    /**
+     *
+     */
+    private LatLngBounds ITALY = new LatLngBounds(
+            new LatLng(38, 9), new LatLng(44, 16));
+
+    /**
      * Questo metodo viene invocato quando viene inizializzata questa activity.
      * Si tratta di una sorta di "main" dell'intera activity.
      * Inizializza i campi d'istanza, imposta alcuni listener e svolge gran parte delle operazioni "globali" dell'activity.
@@ -135,7 +149,7 @@ public class MapsActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
         // quando viene premito il pulsante HERE viene eseguito questo codice
-        button_here.setOnClickListener(new View.OnClickListener() {
+        /* button_here.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "here button clicked");
@@ -153,7 +167,7 @@ public class MapsActivity extends AppCompatActivity
                 } else
                     Log.d(TAG, "no current position available");
             }
-        });
+        }); */
     }
 
 
@@ -268,6 +282,12 @@ public class MapsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.MENU_SETTINGS:
                 startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.MENU_TUTORIAL:
+                startActivity(new Intent(this, TutorialActivity.class));
+                break;
+            case R.id.MENU_GLOSSARY:
+                startActivity(new Intent(this, GlossaryActivity.class));
                 break;
             case R.id.MENU_INFO:
                 startActivity(new Intent(this, InfoActivity.class));
@@ -391,7 +411,7 @@ public class MapsActivity extends AppCompatActivity
             if (gMap.getCameraPosition().zoom < SettingsActivity.getZoomThreshold(this)) {
                 button_here.setVisibility(View.INVISIBLE);
             } else {
-                button_here.setVisibility(View.VISIBLE);
+                button_here.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -436,18 +456,28 @@ public class MapsActivity extends AppCompatActivity
                 });
         uis.setCompassEnabled(true);
         uis.setZoomControlsEnabled(true);
-        uis.setMapToolbarEnabled(true);
+        uis.setMapToolbarEnabled(false);
 
         applyMapSettings();
 
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                IncassiSanita incassiSanita = new IncassiSanita(incassiSanitaData);
+                Gson gson = new Gson();
+                List<IncassiSanita.DataRegione> regionData = incassiSanita.getDataByIdRegione(marker.getTitle());
                 Intent intent = new Intent(MapsActivity.this, PieChartActivity.class);
                 intent.putExtra("regionId", marker.getTitle());
+                intent.putExtra("regionData", gson.toJson(regionData));
                 startActivity(intent);
             }
         });
+
+        // Restricted scrollable area (Italy) and Zoom
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ITALY.getCenter(), (float) 5.4));
+        gMap.setLatLngBoundsForCameraTarget(ITALY);
+        gMap.setMinZoomPreference((float) 5.4);
+        gMap.setMaxZoomPreference((float) 7);
 
         demo();
     }
@@ -493,6 +523,7 @@ public class MapsActivity extends AppCompatActivity
      */
     @Override
     public boolean onMarkerClick(final Marker marker) {
+        /*
         marker.showInfoWindow();
         button_car.setVisibility(View.VISIBLE);
         button_car.setOnClickListener(new View.OnClickListener() {
@@ -504,6 +535,7 @@ public class MapsActivity extends AppCompatActivity
                 }
             }
         });
+        */
         return false;
     }
 
@@ -519,7 +551,7 @@ public class MapsActivity extends AppCompatActivity
     protected <I extends MapItem> Collection<Marker> putMarkersFromMapItems(List<I> l) {
         Collection<Marker> r = new ArrayList<>();
         for (MapItem i : l) {
-            MarkerOptions opts = new MarkerOptions().title(i.getTitle()).position(i.getPosition());
+            MarkerOptions opts = new MarkerOptions().title(i.getId()).position(i.getPosition());
             r.add(gMap.addMarker(opts));
         }
         return r;
@@ -619,6 +651,19 @@ public class MapsActivity extends AppCompatActivity
                 });
             }
             markers = putMarkersFromMapItems(l);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            InputStream is = getResources().openRawResource(R.raw.incassi_sanita);
+            CsvRowParser p = new CsvRowParser(new InputStreamReader(is), true, ",");
+            List<CsvRowParser.Row> rows = p.getAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR).get();
+            List<IncassiSanita.DataRegione> l = new ArrayList<>();
+            for (final CsvRowParser.Row r : rows) {
+                l.add(new IncassiSanita.DataRegione(r.get("Id"), r.get("Regione"), r.get("Titolo"), r.get("Codice"), r.get("Descrizione"), Float.parseFloat(r.get("Importo"))));
+            }
+            incassiSanitaData = l;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
