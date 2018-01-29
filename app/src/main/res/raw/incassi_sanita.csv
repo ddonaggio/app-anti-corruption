@@ -6,7 +6,7 @@ IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1302,Entrate d
 IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,615908.77
 IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,9022636.17
 IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,7703879.2
-IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,1214014.19
+IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,1214014.19
 IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,6713129.58
 IT-ABRUZZO,Abruzzo,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,1292994.78
 IT-ABRUZZO,Abruzzo,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,13108986.36
@@ -227,7 +227,7 @@ IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1303,Entrate da 
 IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,4102408.64
 IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,13190284.05
 IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,28563178.21
-IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,99725.16
+IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,99725.16
 IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,51105989.39
 IT-PUGLIA,Puglia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,1246931.76
 IT-PUGLIA,Puglia,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,64380439.87
@@ -345,7 +345,7 @@ IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1303,Entrate da 
 IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,1802135.92
 IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,11620679.32
 IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,29328172.16
-IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,221.44
+IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,221.44
 IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,1900928.61
 IT-MARCHE,Marche,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,1001672.23
 IT-MARCHE,Marche,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,8495989.93
@@ -519,7 +519,7 @@ IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1302,Entrate
 IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,4334397.07
 IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,13676151.14
 IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,9844813.58
-IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,142344.06
+IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,142344.06
 IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,2271524.99
 IT-SARDEGNA,Sardegna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,6195089.36
 IT-SARDEGNA,Sardegna,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,5451572.27
@@ -571,7 +571,7 @@ IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1304,Entrate d
 IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,3566317.35
 IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,25852893.29
 IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,34164372.13
-IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,37425.78
+IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,37425.78
 IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,11386568.08
 IT-SICILIA,Sicilia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,2997449.54
 IT-SICILIA,Sicilia,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,1439333701
@@ -703,7 +703,7 @@ IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1304,Entra
 IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,60247929.77
 IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,360817509.3
 IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,213253947.2
-IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,5353119.95
+IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,5353119.95
 IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,153141047.9
 IT-LOMBARDIA,Lombardia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,7863936.49
 IT-LOMBARDIA,Lombardia,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,115884105.5
@@ -869,7 +869,7 @@ IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,
 IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,21333450.46
 IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,45295664.14
 IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,127483325.9
-IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,322747.37
+IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,322747.37
 IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,57226613.66
 IT-EMILIA-ROMAGNA,Emilia-Romagna,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,6383221.08
 IT-EMILIA-ROMAGNA,Emilia-Romagna,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,16632915.05
@@ -941,7 +941,7 @@ IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIO
 IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,16064554.31
 IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,10938880.76
 IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,25883554.55
-IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,81013682.91
+IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,81013682.91
 IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,16062248.89
 IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,2160288.91
 IT-FRIULI-VENEZIA-GIULIA,Friuli Venezia Giulia,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,10072289.35
@@ -996,7 +996,7 @@ IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE D
 IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,47305667.52
 IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,13211078.57
 IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,11681831.25
-IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,68562.35
+IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,68562.35
 IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,3673248.67
 IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,13528944.42
 IT-TRENTINO-ALTO-ADIGE,Trentino Alto Adige,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,12716.19
@@ -1046,7 +1046,7 @@ IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1303,Entrate da 
 IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1400,Entrate per prestazioni sanitarie e sociosanitarie a rilevanza sanitaria ad altre Amministrazioni pubbliche,16900222.1
 IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1500,Entrate per prestazioni sanitarie erogate a soggetti privati,85940642.66
 IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1600,Entrate per prestazioni sanitarie erogate in regime di intramoenia,99190177.52
-IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,ENTRATE DERIVANTI DALLA VENDITA DI BENI DI CONSUMO,1002640.21
+IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1650,Entrate derivanti dalla vendita di beni di consumo,1002640.21
 IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1700,Entrate per prestazioni non sanitarie,146446202.5
 IT-VENETO,Veneto,ENTRATE DERIVANTI DALLA PRESTAZIONE DI SERVIZI,1800,Entrate per prestazioni di servizi derivanti da sopravvenienze attive,9688159.1
 IT-VENETO,Veneto,CONTRIBUTI E TRASFERIMENTI CORRENTI,2101,Contributi e trasferimenti correnti da Stato,16745937.76

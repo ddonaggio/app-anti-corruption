@@ -3,7 +3,9 @@ package it.unive.dais.cevid.aac;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -22,9 +24,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,12 +46,12 @@ public class BarChartActivityScroll extends DemoBase implements OnChartValueSele
     private String regionId;
     private String titolo;
     private List<IncassiSanita.DataRegione> incassiSanitaRegione;
+    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.ITALY);
+    private HashMap<Integer,String> mapDesc = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_scrollview);
 
         Gson gson = new Gson();
@@ -69,14 +74,23 @@ public class BarChartActivityScroll extends DemoBase implements OnChartValueSele
             incassiSanitaRegione = gson.fromJson((JsonElement) savedInstanceState.getSerializable("regionData"), listType);
         }
 
+        TextView regionName = (TextView) findViewById(R.id.regionName);
+        regionName.setText(regionId.replace("IT-",""));
+
         mChart = (BarChart) findViewById(R.id.chart1);
 
-        mChart.getDescription().setEnabled(false);
+        mChart.getDescription().setEnabled(true);
+        mChart.getDescription().setText("I valori nell'asse Y sono espressi in scala logaritmica");
+        mChart.getDescription().setPosition(550,20);
+
+        // add a selection listener
+        mChart.setOnChartValueSelectedListener(this);
 
         // scaling can now only be done on x- and y-axis separately
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
+        mChart.setDoubleTapToZoomEnabled(false);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -85,7 +99,7 @@ public class BarChartActivityScroll extends DemoBase implements OnChartValueSele
         mChart.getAxisLeft().setDrawGridLines(false);
 
         Legend l = mChart.getLegend();
-        l.setEnabled(true);
+        l.setEnabled(false);
 
         setData(10);
         mChart.setFitBars(true);
@@ -104,6 +118,7 @@ public class BarChartActivityScroll extends DemoBase implements OnChartValueSele
             Map.Entry entry = (Map.Entry) importiIter.next();
             // yVals.add(new BarEntry(i, (float) entry.getValue()));
             yVals.add(new BarEntry(i, (float) Math.log((float) entry.getValue())));
+            mapDesc.put(i,(String) entry.getKey());
             i++;
         }
 
@@ -124,7 +139,16 @@ public class BarChartActivityScroll extends DemoBase implements OnChartValueSele
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        if (e == null) return;
+
+        if (e == null) {
+            return;
+        }  else {
+            TextView description = (TextView) findViewById(R.id.description);
+            TextView amount = (TextView) findViewById(R.id.amount);
+            description.setText(mapDesc.get((int) e.getX()));
+            double n = (float) e.getY();
+            amount.setText("Totale: "+ numberFormat.format(Math.exp(n)));
+        }
 
         RectF bounds = mOnValueSelectedRectF;
         mChart.getBarBounds((BarEntry) e, bounds);
@@ -134,4 +158,15 @@ public class BarChartActivityScroll extends DemoBase implements OnChartValueSele
 
     @Override
     public void onNothingSelected() {}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

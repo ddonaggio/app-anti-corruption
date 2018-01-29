@@ -148,7 +148,7 @@ public class MapsActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
         // quando viene premito il pulsante HERE viene eseguito questo codice
-        button_here.setOnClickListener(new View.OnClickListener() {
+        /* button_here.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "here button clicked");
@@ -166,7 +166,7 @@ public class MapsActivity extends AppCompatActivity
                 } else
                     Log.d(TAG, "no current position available");
             }
-        });
+        }); */
     }
 
 
@@ -404,7 +404,7 @@ public class MapsActivity extends AppCompatActivity
             if (gMap.getCameraPosition().zoom < SettingsActivity.getZoomThreshold(this)) {
                 button_here.setVisibility(View.INVISIBLE);
             } else {
-                button_here.setVisibility(View.VISIBLE);
+                button_here.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -449,7 +449,7 @@ public class MapsActivity extends AppCompatActivity
                 });
         uis.setCompassEnabled(true);
         uis.setZoomControlsEnabled(true);
-        uis.setMapToolbarEnabled(true);
+        uis.setMapToolbarEnabled(false);
 
         applyMapSettings();
 

@@ -7,6 +7,17 @@
         android:id="@+id/chart1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/seekBar1" />
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/totalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
 
 </RelativeLayout>

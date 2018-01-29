@@ -25,6 +25,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendPosition;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -41,9 +42,11 @@ import com.google.gson.reflect.TypeToken;
 
 
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -62,8 +65,6 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_piechart);
 
         Gson gson = new Gson();
@@ -86,7 +87,7 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
         mChart = (PieChart) findViewById(R.id.chart1);
         mChart.setUsePercentValues(true);
         mChart.getDescription().setEnabled(false);
-        mChart.setExtraOffsets(5, 10, 5, 5);
+        mChart.setExtraOffsets(5, 5, 5, 5);
 
         mChart.setDragDecelerationFrictionCoef(0.95f);
 
@@ -122,7 +123,7 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
 
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
         l.setXEntrySpace(7f);
@@ -136,7 +137,7 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
         mChart.setDrawEntryLabels(false);
     }
 
-    @Override
+    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.pie, menu);
         return true;
@@ -210,7 +211,7 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
             }
         }
         return true;
-    }
+    } */
 
     private void setData(int count, float range) {
 
@@ -219,6 +220,7 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         Set<Map.Entry<String, Float>> importi = IncassiSanita.getImportiFromDataRegione(incassiSanitaRegione).entrySet();
         Iterator importiIter = importi.iterator();
+        float total = 0;
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
@@ -227,9 +229,14 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
             entries.add(new PieEntry((float) entry.getValue(),
                     (String) entry.getKey(),
                     getResources().getDrawable(R.drawable.star)));
+            total += (float) entry.getValue();
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
+        TextView totalAmount = (TextView) findViewById(R.id.totalAmount);
+
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.ITALY);
+        totalAmount.setText("Totale: "+ numberFormat.format(total));
 
         dataSet.setDrawIcons(false);
 
@@ -305,6 +312,15 @@ public class PieChartActivity extends DemoBase implements OnChartValueSelectedLi
         Log.i("PieChart", "nothing selected");
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }
