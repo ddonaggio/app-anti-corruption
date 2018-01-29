@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.coreutils.BuildConfig;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 
@@ -52,6 +53,17 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
         TextView tv_1 = (TextView) findViewById(R.id.textView_1);
         tv_1.setText(credits(this));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
