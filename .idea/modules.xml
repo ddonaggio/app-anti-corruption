@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Code_for_App.iml" filepath="$PROJECT_DIR$/Code_for_App.iml" />
       <module fileurl="file://$PROJECT_DIR$/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/MPChartLib/MPChartLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app-anti-corruption.iml" filepath="$PROJECT_DIR$/app-anti-corruption.iml" />
       <module fileurl="file://$PROJECT_DIR$/Datadroid/datadroid.lib.iml" filepath="$PROJECT_DIR$/Datadroid/datadroid.lib.iml" />
     </modules>
   </component>

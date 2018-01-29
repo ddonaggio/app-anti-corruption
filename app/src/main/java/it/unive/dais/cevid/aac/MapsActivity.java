@@ -3,6 +3,7 @@
  * Si tratta di classi che contengono già funzionalità base e possono essere riusate apportandovi modifiche
  */
 package it.unive.dais.cevid.aac;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -268,6 +269,12 @@ public class MapsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.MENU_SETTINGS:
                 startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.MENU_TUTORIAL:
+                startActivity(new Intent(this, TutorialActivity.class));
+                break;
+            case R.id.MENU_GLOSSARY:
+                startActivity(new Intent(this, GlossaryActivity.class));
                 break;
             case R.id.MENU_INFO:
                 startActivity(new Intent(this, InfoActivity.class));
